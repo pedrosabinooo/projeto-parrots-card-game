@@ -1,0 +1,49 @@
+/* geral */
+* {
+    box-sizing: border-box;
+    background: #EEF9BF;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+h1 {
+    color: #75B79E;
+    font-size: 56px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+main {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.carta {
+    margin: 17px;
+    min-width: 117px;
+    min-height: 146px;
+    background: #A7E9AF;
+    border: 1px solid #99CEA8;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+@media (max-width: 614px) {
+    h1 {
+        font-size: 36px;
+    }
+}
