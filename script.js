@@ -1,5 +1,6 @@
 // let numeroCartas = parseInt(prompt("Com quantas cartas você quer jogar?\nDigite um número par entre 4 e 14."))
 let numeroCartas = 12;
+let numeroJogadas = 0;
 console.log(numeroCartas);
 
 while(true) {
