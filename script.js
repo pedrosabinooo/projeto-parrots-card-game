@@ -17,4 +17,10 @@ while(true) {
     }
 }
 
-
+function chooseCard(chosenCard) {
+    console.log(chosenCard);
+    const back_front = chosenCard.querySelectorAll(".card");
+    console.log(back_front);
+    back_front[0].classList.add("hidden");
+    back_front[1].classList.remove("hidden");
+}
