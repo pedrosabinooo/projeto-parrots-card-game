@@ -20,14 +20,14 @@ h1 {
 }
 
 /* Tabuleiro */
-main {
+section {
     margin-top: 30px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.card {
+.back, .front {
     margin: 17px;
     min-width: 117px;
     min-height: 146px;
