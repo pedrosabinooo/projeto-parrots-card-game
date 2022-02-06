@@ -77,7 +77,8 @@ footer {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #EEF9BF;
+    background-color: #99cea85e;
+    padding-bottom: 5px;
 }
 
 footer span {

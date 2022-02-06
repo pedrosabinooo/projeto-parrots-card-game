@@ -13,7 +13,7 @@ askGameSize();
 
 // CRIANDO AS FUNÇÕES
 
-function resetVariables() {
+function resetVariables() { // Função para resetar o valor das variáveis quando reiniciar o jogo
     numberOfMoves = 0;
     numberOfRightMoves = 0;
     time = 0;
@@ -44,12 +44,11 @@ function askGameSize() { // Função para perguntar com quantas cartas o jogador
 function setTable() { // Função para organizar o tabuleiro de cartas
     const table = document.querySelector("main"); // Seleciona o tabuleiro
     table.innerHTML = '';
-    const parrotTypes = ['unicornparrot', 'bobrossparrot', 'explodyparrot', 'fiestaparrot', 'metalparrot', 'revertitparrot', 'tripletsparrot'];
+    const parrotTypes = ['unicornparrot', 'fiestaparrot', 'revertitparrot', 'tripletsparrot', 'explodyparrot', 'bobrossparrot', 'metalparrot'];
     
     let chosenParrots = parrotTypes.slice(0,numberOfCards/2);
     chosenParrots = chosenParrots.concat(chosenParrots);
     chosenParrots = chosenParrots.sort(comparador); // Embaralha o deck
-    console.log(chosenParrots)
     
     for (let i = 0; i < chosenParrots.length; i++) { // Popula o tabuleiro
         table.innerHTML += `
@@ -114,10 +113,10 @@ function rightPair(){ // Função para alterar as classes das cartas quando o jo
 
 function checkEndGame() { // Função para checar se o jogo terminou e perguntar se deseja recomeçar
     if (numberOfRightMoves === numberOfCards/2) {
-        alert("Você ganhou em " + numberOfMoves + " jogadas e em " + time + " segundos!")
-        const askRestartGame = prompt("Você gostaria de jogar novamente? (s/n)")
+        alert("Você ganhou em " + numberOfMoves + " jogadas e em " + time + " segundos!");
+        const askRestartGame = prompt("Você gostaria de jogar novamente? (s/n)");
         clearInterval(myTimer);
-        if (askRestartGame==="s") {askGameSize()}
+        if (askRestartGame.toLowerCase()==="s") {askGameSize()}
     }
 }
 
