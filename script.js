@@ -1,25 +1,29 @@
 // DEFININDO AS VARIÁVEIS GLOBAIS
 
-let numberOfCards = 4; // TIRAR O "= 8" NO FINAL!!!!!!!!!!!!!!!!
+let numberOfCards;
 
 let numberOfMoves;
 let numberOfRightMoves;
 let rounds;
+let time;
+let myTimer;
+let locked;
 
 askGameSize();
 
-// while (numberOfRightMoves < numberOfCards/2) {
-
-// }
-
-// -----------------------------------------------------------------------
 // CRIANDO AS FUNÇÕES
 
-function askGameSize() { // Função para perguntar com quantas cartas o jogador quer jogar
+function resetVariables() {
     numberOfMoves = 0;
     numberOfRightMoves = 0;
+    time = 0;
     rounds = [];
-    // numberOfCards = parseInt(prompt("Com quantas cartas você quer jogar?\nDigite um número par entre 4 e 14."))
+    locked = false;
+}
+
+function askGameSize() { // Função para perguntar com quantas cartas o jogador quer jogar
+    resetVariables();
+    numberOfCards = parseInt(prompt("Com quantas cartas você quer jogar?\nDigite um número par entre 4 e 14."))
     
     while(true) {
         if(isNaN(numberOfCards)) {
@@ -38,60 +42,81 @@ function askGameSize() { // Função para perguntar com quantas cartas o jogador
 }
 
 function setTable() { // Função para organizar o tabuleiro de cartas
-    const section = document.querySelector("main *"); // Seleciona a section com o tabuleiro
-    main = section.parentNode;
-    section.remove();
-    main.innerHTML = main.innerHTML + `<section></section>`;
-    const table = document.querySelector("section");
+    const table = document.querySelector("main"); // Seleciona o tabuleiro
+    table.innerHTML = '';
     const parrotTypes = ['unicornparrot', 'bobrossparrot', 'explodyparrot', 'fiestaparrot', 'metalparrot', 'revertitparrot', 'tripletsparrot'];
     
     let chosenParrots = parrotTypes.slice(0,numberOfCards/2);
     chosenParrots = chosenParrots.concat(chosenParrots);
-    chosenParrots = chosenParrots.sort(comparador); // Embaralha
+    chosenParrots = chosenParrots.sort(comparador); // Embaralha o deck
     console.log(chosenParrots)
     
-    for (let i = 0; i < chosenParrots.length; i++) { // Populando o tabuleiro
-        table.innerHTML = table.innerHTML + `
-            <article class="${chosenParrots[i]}" onclick="chooseCard(this)" data-identifier="card">
-                <div class="card back" data-identifier="back-face">
-                    <img src="media/front.png" alt="Parrot">
+    for (let i = 0; i < chosenParrots.length; i++) { // Popula o tabuleiro
+        table.innerHTML += `
+            <article class="card" onclick="chooseCard(this)" data-identifier="card">
+                <div class="back" data-identifier="back-face">
+                    <img class="${chosenParrots[i]}" src="media/front.png" alt="Parrot">
                 </div>
-                <div class="card front hidden" data-identifier="front-face">
-                    <img src="media/${chosenParrots[i]}.gif" alt="GIF do ${chosenParrots[i]}">
+                <div class="front" data-identifier="front-face">
+                    <img class="${chosenParrots[i]}" src="media/${chosenParrots[i]}.gif" alt="GIF do ${chosenParrots[i]}">
                 </div>
             </article>
         `
     }
+
+    myTimer = setInterval(() => {
+        time++;
+        const clock = document.querySelector("header p em");
+        clock.innerHTML = time;
+    }, 1000);
 }
 
 function chooseCard(chosenCard) { // Função para virar a carta escolhida
-    const card = chosenCard.querySelectorAll(".card");
+    if (!locked && !chosenCard.classList.contains("flip")) {
+        chosenCard.classList.add("flip");
+        chosenCard.classList.add("current-round");
 
-    card[0].classList.add("hidden");
-    card[1].classList.remove("hidden");
+        const roundId = numberOfMoves/2>>0;
 
-    const roundId = numberOfMoves/2>>0;
-
-    if (numberOfMoves%2==0) {
-        rounds.push({id:roundId,firstCard:"",secondCard:""});
-        rounds[roundId].firstCard = chosenCard.className;
-    } else {
-        rounds[roundId].secondCard = chosenCard.className;
+        if (numberOfMoves%2==0) {
+            rounds.push({id:roundId,firstCard:"",secondCard:""});
+            rounds[roundId].firstCard = chosenCard.querySelector(".front img").className;
+        } else {
+            rounds[roundId].secondCard = chosenCard.querySelector(".front img").className;
+            if (rounds[roundId].firstCard === rounds[roundId].secondCard) {
+                numberOfRightMoves++;
+                setTimeout(rightPair,1);
+                setTimeout(checkEndGame,1001);
+            } else {
+                locked = true;
+                setTimeout(wrongPair,1000);
+            }
+        }
+        numberOfMoves++;
     }
-    numberOfMoves++;
-    console.log(numberOfMoves)
-    if (rounds[roundId].firstCard === rounds[roundId].secondCard) {
-        numberOfRightMoves++;
-        setTimeout(checkEndGame,1);
-    }
-    console.log(numberOfRightMoves)
-    console.log(rounds)
 }
 
-function checkEndGame() {
+function wrongPair(){ // Função para alterar as classes das cartas quando o jogador erra o par
+    const card = document.querySelectorAll(".current-round");
+    for (let i = 0; i < card.length; i++){
+        card[i].classList.remove("flip");
+        card[i].classList.remove("current-round");
+    }
+    locked = false;
+}
+
+function rightPair(){ // Função para alterar as classes das cartas quando o jogador acerta o par
+    const card = document.querySelectorAll(".current-round");
+    for (let i = 0; i < card.length; i++){
+        card[i].classList.remove("current-round");
+    }
+}
+
+function checkEndGame() { // Função para checar se o jogo terminou e perguntar se deseja recomeçar
     if (numberOfRightMoves === numberOfCards/2) {
-        alert("Você ganhou em " + numberOfMoves + " jogadas!")
+        alert("Você ganhou em " + numberOfMoves + " jogadas e em " + time + " segundos!")
         const askRestartGame = prompt("Você gostaria de jogar novamente? (s/n)")
+        clearInterval(myTimer);
         if (askRestartGame==="s") {askGameSize()}
     }
 }

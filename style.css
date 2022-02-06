@@ -9,9 +9,10 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
 }
 
-/* Title */
+/* Header */
 h1 {
     color: #75B79E;
     font-size: 56px;
@@ -19,33 +20,68 @@ h1 {
     margin-top: 40px;
 }
 
+header p {
+    color: #75b79e9d;
+    margin-top: 15px;
+    text-align: center;
+}
+
 /* Tabuleiro */
-section {
-    margin-top: 30px;
+main {
+    margin-top: 15px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.back, .front {
+.card {
     margin: 17px;
-    min-width: 117px;
-    min-height: 146px;
+    width: 117px;
+    height: 146px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all .5s;
+}
+
+.back, .front {
+    width: 100%;
+    height: 100%;
     background: #A7E9AF;
     border: 1px solid #99CEA8;
     border-radius: 5px;
+    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
-img {
+.card img {
     width: 100px;
     height: 100px;
 }
 
-.hidden {
-    display: none;
+.flip {
+    transform: rotateY(180deg);
+}
+
+.front {
+    transform: rotateY(180deg);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    position:fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #EEF9BF;
+}
+
+footer span {
+    font-size: 14px;
 }
 
 @media (max-width: 614px) {
