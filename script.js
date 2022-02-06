@@ -116,6 +116,7 @@ function checkEndGame() { // Função para checar se o jogo terminou e perguntar
         alert("Você ganhou em " + numberOfMoves + " jogadas e em " + time + " segundos!");
         const askRestartGame = prompt("Você gostaria de jogar novamente? (s/n)");
         clearInterval(myTimer);
+        numberOfRightMoves=0;
         if (askRestartGame.toLowerCase()==="s") {askGameSize()}
     }
 }
