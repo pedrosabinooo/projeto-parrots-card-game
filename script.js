@@ -114,11 +114,7 @@ function rightPair(){ // Função para alterar as classes das cartas quando o jo
 function checkEndGame() { // Função para checar se o jogo terminou e perguntar se deseja recomeçar
     if (numberOfRightMoves === numberOfCards/2) {
         alert("Você ganhou em " + numberOfMoves + " jogadas e em " + time + " segundos!");
-<<<<<<< HEAD
         const askRestartGame = prompt("Você gostaria de jogar novamente? (s/n)");
-=======
-        const askRestartGame = prompt("Você gostaria de jogar novamente? (s/n)").toLowerCase();
->>>>>>> e09d896df864417aaa3f5050c669798e917e3d31
         clearInterval(myTimer);
         if (askRestartGame.toLowerCase()==="s") {askGameSize()}
     }
