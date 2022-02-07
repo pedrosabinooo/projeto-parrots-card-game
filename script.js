@@ -1,7 +1,11 @@
-// DEFININDO AS VARIÁVEIS GLOBAIS
+/** --- DEFININDO AS VARIÁVEIS GLOBAIS --- */
+
+// Variáveis de controle
+const MINIMUMCARDS = 4;
+const MAXIMUMCARDS = 14;
+const PARROTTYPES = ['unicornparrot', 'fiestaparrot', 'revertitparrot', 'tripletsparrot', 'explodyparrot', 'bobrossparrot', 'metalparrot'];
 
 let numberOfCards;
-
 let numberOfMoves;
 let numberOfRightMoves;
 let rounds;
@@ -9,9 +13,13 @@ let time;
 let myTimer;
 let locked;
 
+// ---------------------------------------------------------------------------------------------
+
 askGameSize();
 
-// CRIANDO AS FUNÇÕES
+// ---------------------------------------------------------------------------------------------
+
+/** --- CRIANDO AS FUNÇÕES --- */
 
 function resetVariables() { // Função para resetar o valor das variáveis quando reiniciar o jogo
     numberOfMoves = 0;
@@ -23,18 +31,18 @@ function resetVariables() { // Função para resetar o valor das variáveis quan
 
 function askGameSize() { // Função para perguntar com quantas cartas o jogador quer jogar
     resetVariables();
-    numberOfCards = parseInt(prompt("Com quantas cartas você quer jogar?\nDigite um número par entre 4 e 14."))
+    numberOfCards = parseInt(prompt(`Com quantas cartas você quer jogar?\nDigite um número par entre ${MINIMUMCARDS} e ${MAXIMUMCARDS}.`))
     
     while(true) {
         if(isNaN(numberOfCards)) {
             numberOfCards = parseInt(prompt("Você não digitou um número.\nTente novamente!\n\nCom quantas cartas você quer jogar?\nDigite um número par entre 4 e 14."))
-        } else if (numberOfCards>14) {
+        } else if (numberOfCards > MAXIMUMCARDS) {
             numberOfCards = parseInt(prompt("Você digitou um número maior do que 14.\nTente novamente!\n\nCom quantas cartas você quer jogar?\nDigite um número par entre 4 e 14."))
-        } else if (numberOfCards<4) {
+        } else if (numberOfCards < MINIMUMCARDS) {
             numberOfCards = parseInt(prompt("Você digitou um número menor do que 4.\nTente novamente!\n\nCom quantas cartas você quer jogar?\nDigite um número par entre 4 e 14."))
-        } else if (numberOfCards%2==1) {
+        } else if (numberOfCards%2 === 1) {
             numberOfCards = parseInt(prompt("Você digitou um número ímpar.\nTente novamente!\n\nCom quantas cartas você quer jogar?\nDigite um número par entre 4 e 14."))
-        } else if (numberOfCards%2==0) {
+        } else if (numberOfCards%2 === 0) {
             setTable();
             break;
         }
@@ -44,9 +52,8 @@ function askGameSize() { // Função para perguntar com quantas cartas o jogador
 function setTable() { // Função para organizar o tabuleiro de cartas
     const table = document.querySelector("main"); // Seleciona o tabuleiro
     table.innerHTML = '';
-    const parrotTypes = ['unicornparrot', 'fiestaparrot', 'revertitparrot', 'tripletsparrot', 'explodyparrot', 'bobrossparrot', 'metalparrot'];
     
-    let chosenParrots = parrotTypes.slice(0,numberOfCards/2);
+    let chosenParrots = PARROTTYPES.slice(0,numberOfCards/2);
     chosenParrots = chosenParrots.concat(chosenParrots);
     chosenParrots = chosenParrots.sort(comparador); // Embaralha o deck
     
